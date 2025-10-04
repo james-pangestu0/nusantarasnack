@@ -19,6 +19,8 @@ nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;alig
 .product-image{width:100%;height:180px;object-fit:cover;background:#f4e4c1}
 .product-info{padding:1rem}
 .product-name{font-weight:700;margin-bottom:.3rem}
+.product-description{font-size:.9rem;color:#555;margin-bottom:.5rem;min-height:40px}
+.product-stock{font-size:.85rem;color:#666;margin-bottom:.6rem}
 .product-price{color:#c62828;font-weight:700;margin-bottom:.8rem}
 .add-to-cart{background:#c62828;color:#fff;border:none;padding:.7rem;border-radius:6px;width:100%;cursor:pointer}
 .add-to-cart:hover{background:#b71c1c}
@@ -109,31 +111,31 @@ footer{background:#222;color:#fff;text-align:center;padding:1.5rem;margin-top:2r
   &copy; 2025 TemanRusiaKamu - Membawa cita rasa Nusantara ke seluruh dunia
 </footer>
 
-<!-- Notifikasi -->
 <div id="notification"></div>
 
 <script>
-const products=[
- {id:1,name:"Nasi Goreng Yummy",price:140,image:"./images/Nasgor2.jpg"},
- {id:2,name:"Bumbu Royco Sapi",price:140,image:"./images/Royco.jpg"},
- {id:3,name:"Sambel Uleg",price:140,image:"./images/Sambel Uleg.jpg"},
- {id:4,name:"Tolak Angin",price:50,image:"./images/Tolak Angin.jpg"},
- {id:5,name:"Kari Jepang",price:200,image:"./images/Kari Jepang.jpg"},
- {id:6,name:"Bumbu Soto Betawi",price:140,image:"./images/Soto Betawi.jpg"}
+let products=[
+ {id:1,name:"Nasi Goreng Yummy",price:140,stock:5,description:"Bumbu nasi goreng khas Indonesia, cocok untuk 2 porsi.",image:"./images/Nasgor2.jpg"},
+ {id:2,name:"Bumbu Royco Sapi",price:140,stock:3,description:"Kaldu sapi gurih dengan rasa nusantara.",image:"./images/Royco.jpg"},
+ {id:3,name:"Sambel Uleg",price:140,stock:4,description:"Sambal uleg asli, pedas mantap dan praktis.",image:"./images/Sambel Uleg.jpg"},
+ {id:4,name:"Tolak Angin",price:50,stock:10,description:"Obat herbal tradisional untuk menjaga daya tahan tubuh.",image:"./images/Tolak Angin.jpg"},
+ {id:5,name:"Kari Jepang",price:200,stock:6,description:"Kari instan rasa Jepang, lezat dan mudah disajikan.",image:"./images/Kari Jepang.jpg"},
+ {id:6,name:"Bumbu Soto Betawi",price:140,stock:5,description:"Bumbu siap masak untuk soto Betawi autentik.",image:"./images/Soto Betawi.jpg"}
 ];
 let cart=[];
 
-// ===== RENDER PRODUK =====
 function displayProducts(){
  const c=document.getElementById("productContainer");
  c.innerHTML=products.map(p=>`
   <div class="product-card">
-   <img src="${p.image}" alt="${p.name}" class="product-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22120%22><rect fill=%22%23f4e4c1%22 width=%22250%22 height=%22120%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2230%22>🍜</text></svg>'">
-   <div class="product-info">
-     <div class="product-name">${p.name}</div>
-     <div class="product-price">${p.price} Ruble</div>
-     <button class="add-to-cart" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
-   </div>
+    <img src="${p.image}" alt="${p.name}" class="product-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22120%22><rect fill=%22%23f4e4c1%22 width=%22250%22 height=%22120%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2230%22>🍜</text></svg>'">
+    <div class="product-info">
+      <div class="product-name">${p.name}</div>
+      <div class="product-description">${p.description}</div>
+      <div class="product-stock">${p.stock>0?`Stok: ${p.stock} tersedia`:"<span style='color:red'>Stok habis</span>"}</div>
+      <div class="product-price">${p.price} Ruble</div>
+      <button class="add-to-cart" onclick="addToCart(${p.id})" ${p.stock===0?"disabled":""}>${p.stock===0?"Stok Habis":"Tambah ke Keranjang"}</button>
+    </div>
   </div>
  `).join("");
 }
@@ -141,8 +143,14 @@ displayProducts();
 
 function addToCart(id){
  const p=products.find(x=>x.id===id);
+ if(!p || p.stock<=0){alert("Stok habis!");return;}
  const exist=cart.find(x=>x.id===id);
- if(exist) exist.qty++; else cart.push({...p,qty:1});
+ if(exist){
+   if(exist.qty<p.stock){exist.qty++;}
+   else{alert("Tidak bisa menambah lebih dari stok tersedia!");return;}
+ } else {
+   cart.push({...p,qty:1});
+ }
  updateCart();
  showNotification("Produk ditambahkan ke keranjang!");
 }
@@ -154,8 +162,7 @@ function updateCart(){
  if(cart.length===0){
   items.innerHTML="<p>Keranjang kosong.</p>";
   total.textContent="Total: 0 Ruble";
-  count.textContent="0";
-  return;
+  count.textContent="0";return;
  }
  items.innerHTML=cart.map(i=>`
   <div class="cart-item">
@@ -185,8 +192,7 @@ function showCheckout(){
 // === NOTIFIKASI ===
 function showNotification(msg){
  const n=document.getElementById("notification");
- n.textContent=msg;
- n.style.display="block";
+ n.textContent=msg;n.style.display="block";
  setTimeout(()=>{n.style.display="none"},2000);
 }
 
@@ -197,23 +203,23 @@ document.getElementById("orderForm").addEventListener("submit",function(e){
  if(!file){alert("Upload bukti pembayaran!");return;}
  if(!file.type.startsWith("image/")){alert("File harus gambar!");return;}
  if(file.size>5*1024*1024){alert("Ukuran maksimal 5MB!");return;}
-
- // Gunakan FormSubmit melalui fetch agar bisa tangkap hasil
  const formData=new FormData(this);
  fetch(this.action,{method:"POST",body:formData})
-  .then(res=>{
-    if(res.ok){
-      document.getElementById("checkoutForm").style.display="none";
-      document.getElementById("thankYou").style.display="block";
-      cart=[];updateCart();
-    } else {
-      alert("Gagal mengirim. Pastikan situs diakses via HTTPS dan email FormSubmit sudah diverifikasi.");
-    }
-  })
-  .catch(()=>alert("Gagal mengirim. Coba lagi atau cek koneksi internet."));
+ .then(res=>{
+   if(res.ok){
+     // kurangi stok produk berdasarkan pesanan
+     cart.forEach(ci=>{
+       const prod=products.find(p=>p.id===ci.id);
+       if(prod) prod.stock=Math.max(prod.stock-ci.qty,0);
+     });
+     cart=[];updateCart();displayProducts();
+     document.getElementById("checkoutForm").style.display="none";
+     document.getElementById("thankYou").style.display="block";
+   } else alert("Gagal mengirim. Pastikan situs HTTPS & email sudah diverifikasi.");
+ })
+ .catch(()=>alert("Gagal mengirim. Coba lagi."));
 });
 
-// Tombol kembali ke toko
 function goBackToStore(){
  document.getElementById("thankYou").style.display="none";
  window.scrollTo({top:0,behavior:"smooth"});
