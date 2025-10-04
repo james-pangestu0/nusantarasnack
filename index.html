@@ -1,226 +1,234 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#333;line-height:1.6;}
-header{background:linear-gradient(135deg,#c62828 0%,#d32f2f 100%);color:white;padding:1rem 0;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100;}
-nav{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:0 2rem;}
-.logo{font-size:1.8rem;font-weight:bold;display:flex;align-items:center;gap:0.5rem;}
-.nav-links{display:flex;gap:2rem;list-style:none;}
-.nav-links a{color:white;text-decoration:none;transition:opacity 0.3s;}
-.nav-links a:hover{opacity:0.8;}
-.cart-icon{position:relative;cursor:pointer;font-size:1.5rem;}
-.cart-count{position:absolute;top:-8px;right:-8px;background:#ffc107;color:#333;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:bold;}
-.hero{background:linear-gradient(rgba(198,40,40,0.8),rgba(211,47,47,0.8)),url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f4e4c1" width="1200" height="400"/><circle cx="200" cy="100" r="50" fill="%23c62828" opacity="0.1"/><circle cx="800" cy="300" r="80" fill="%23d32f2f" opacity="0.1"/><circle cx="1000" cy="150" r="60" fill="%23c62828" opacity="0.1"/></svg>');background-size:cover;background-position:center;color:white;text-align:center;padding:6rem 2rem;}
-.hero h1{font-size:3rem;margin-bottom:1rem;}
-.hero p{font-size:1.3rem;margin-bottom:2rem;}
-.container{max-width:1200px;margin:0 auto;padding:3rem 2rem;}
-.section-title{text-align:center;font-size:2rem;margin-bottom:3rem;color:#c62828;}
-.categories{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;}
-.category-btn{padding:0.8rem 2rem;border:2px solid #c62828;background:white;color:#c62828;border-radius:25px;cursor:pointer;transition:all 0.3s;font-size:1rem;font-weight:600;}
-.category-btn:hover, .category-btn.active{background:#c62828;color:white;transform:translateY(-2px);box-shadow:0 4px 8px rgba(198,40,40,0.3);}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;}
-.product-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.1);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;}
-.product-card:hover{transform:translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,0.15);}
-.product-image{width:100%;height:200px;object-fit:cover;background:#f4e4c1;}
-.product-info{padding:1.5rem;}
-.product-name{font-size:1.2rem;font-weight:bold;margin-bottom:0.5rem;color:#333;}
-.product-description{font-size:0.9rem;color:#666;margin-bottom:0.5rem;line-height:1.4;}
-.product-stock{font-size:0.85rem;color:#888;margin-bottom:0.8rem;}
-.product-stock.low{color:#f44336;font-weight:bold;}
-.product-price{font-size:1.3rem;color:#c62828;font-weight:bold;margin-bottom:1rem;}
-.add-to-cart{width:100%;padding:0.8rem;background:#c62828;color:white;border:none;border-radius:6px;cursor:pointer;font-size:1rem;font-weight:600;transition:background 0.3s;}
-.add-to-cart:hover{background:#b71c1c;}
-.cart-modal,.checkout-popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
-.cart-content,.checkout-content{background:white;padding:2rem;border-radius:12px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;}
-.cart-header,.checkout-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
-.close-cart,.close-popup{font-size:1.5rem;cursor:pointer;color:#666;}
-.cart-item{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid #eee;}
-.cart-total,.checkout-total{text-align:right;font-size:1.5rem;font-weight:bold;color:#c62828;margin-top:1rem;}
-.checkout-btn{width:100%;padding:1rem;background:#4caf50;color:white;border:none;border-radius:6px;cursor:pointer;font-size:1.1rem;font-weight:600;margin-top:1rem;transition:background 0.3s;}
-.checkout-btn:hover{background:#388e3c;}
-footer{background:#333;color:white;text-align:center;padding:2rem;margin-top:4rem;}
-.empty-cart{text-align:center;padding:2rem;color:#666;}
-@media(max-width:768px){.hero h1{font-size:2rem;}.nav-links{gap:1rem;}.products{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #c62828 0%, #d32f2f 100%);
+      color: white; padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky; top: 0; z-index: 100;
+    }
+    nav {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 2rem;
+    }
+    .logo { font-size: 1.8rem; font-weight: bold; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: white; text-decoration: none; transition: opacity 0.3s; }
+    .nav-links a:hover { opacity: 0.8; }
+    .cart-icon { position: relative; cursor: pointer; font-size: 1.5rem; }
+    .cart-count {
+      position: absolute; top: -8px; right: -8px; background: #ffc107; color: #333;
+      border-radius: 50%; width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: bold;
+    }
+    .hero {
+      background: linear-gradient(rgba(198, 40, 40, 0.8), rgba(211, 47, 47, 0.8)), #f4e4c1;
+      text-align: center; color: white; padding: 6rem 2rem;
+    }
+    .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+    .section-title { text-align: center; font-size: 2rem; margin-bottom: 3rem; color: #c62828; }
+    .products {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;
+    }
+    .product-card {
+      background: white; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .product-image { width: 100%; height: 200px; object-fit: cover; background: #f4e4c1; }
+    .product-info { padding: 1.5rem; }
+    .product-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem; }
+    .product-price { font-size: 1.3rem; color: #c62828; font-weight: bold; margin-bottom: 1rem; }
+    .add-to-cart {
+      width: 100%; padding: 0.8rem; background: #c62828;
+      color: white; border: none; border-radius: 6px; cursor: pointer;
+      font-size: 1rem; font-weight: 600;
+    }
+    .add-to-cart:hover { background: #b71c1c; }
+    .cart-modal {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
+    }
+    .cart-content {
+      background: white; padding: 2rem; border-radius: 12px;
+      max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;
+    }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #eee; }
+    .cart-total { margin-top: 1.5rem; font-size: 1.5rem; font-weight: bold; text-align: right; color: #c62828; }
+    .checkout-btn {
+      width: 100%; padding: 1rem; background: #4caf50;
+      color: white; border: none; border-radius: 6px; cursor: pointer;
+      font-size: 1.1rem; font-weight: 600; margin-top: 1rem;
+    }
+    footer { background: #333; color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    #checkoutForm {
+      display:none; padding:2rem; background:#fff; border-radius:12px;
+      max-width:600px; margin:2rem auto; box-shadow:0 0 15px rgba(0,0,0,0.1);
+    }
+    input, textarea { width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:6px; }
+    button[type="submit"] { background:#4caf50; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; }
+  </style>
 </head>
 <body>
-<header>
-<nav>
-<div class="logo">🌶️ TemanRusiaKamu</div>
-<ul class="nav-links">
-<li><a href="#home">Beranda</a></li>
-<li><a href="#products">Produk</a></li>
-<li><a href="#about">Tentang</a></li>
-</ul>
-<div class="cart-icon" onclick="toggleCart()">🛒<span class="cart-count" id="cartCount">0</span></div>
-</nav>
-</header>
+  <header>
+    <nav>
+      <div class="logo">🌶️ TemanRusiaKamu</div>
+      <ul class="nav-links">
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#products">Produk</a></li>
+      </ul>
+      <div class="cart-icon" onclick="toggleCart()">🛒<span class="cart-count" id="cartCount">0</span></div>
+    </nav>
+  </header>
 
-<section class="hero" id="home">
-<h1>Selamat Datang di TemanRusiaKamu!</h1>
-<p>Bumbu & Snack Nusantara Terbaik untuk Anda</p>
-</section>
+  <section class="hero" id="home">
+    <h1>Selamat Datang di TemanRusiaKamu!</h1>
+    <p>Bumbu & Snack Nusantara Terbaik untuk Anda</p>
+  </section>
 
-<div class="container" id="products">
-<h2 class="section-title">Produk Kami</h2>
-<div class="categories">
-<button class="category-btn active" onclick="filterProducts('semua', event)">Semua</button>
-<button class="category-btn" onclick="filterProducts('bumbu', event)">Bumbu</button>
-<button class="category-btn" onclick="filterProducts('snack', event)">Snack</button>
-</div>
-<div class="products" id="productContainer"></div>
-</div>
+  <div class="container" id="products">
+    <h2 class="section-title">Produk Kami</h2>
+    <div class="products" id="productContainer"></div>
+  </div>
 
-<div class="cart-modal" id="cartModal">
-<div class="cart-content">
-<div class="cart-header">
-<h2>Keranjang Belanja</h2>
-<span class="close-cart" onclick="toggleCart()">✕</span>
-</div>
-<div id="cartItems"></div>
-<div class="cart-total" id="cartTotal">Total: Rp 0</div>
-<button class="checkout-btn" onclick="openCheckoutPopup()">Checkout</button>
-</div>
-</div>
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <h2>Keranjang Belanja</h2>
+      <div id="cartItems"></div>
+      <div class="cart-total" id="cartTotal">Total: 0 Ruble</div>
+      <button class="checkout-btn" onclick="showCheckout()">Checkout</button>
+      <button class="checkout-btn" style="background:#d32f2f;" onclick="toggleCart()">Tutup</button>
+    </div>
+  </div>
 
-<div class="checkout-popup" id="checkoutPopup">
-<div class="checkout-content">
-<div class="checkout-header">
-<h2>Checkout</h2>
-<span class="close-popup" onclick="closeCheckoutPopup()">✕</span>
-</div>
-<div id="popup-items"></div>
-<div class="checkout-total" id="popup-total"></div>
-<label>Upload Bukti Pembayaran: <input type="file" id="payment-proof"></label>
-<button class="checkout-btn" id="send-email-btn">Kirim</button>
-</div>
-</div>
+  <div id="checkoutForm">
+    <h2>Form Checkout</h2>
+    <p>Silakan transfer ke salah satu rekening berikut:</p>
+    <ul style="margin:1rem 0; line-height:1.6;">
+      <li><b>Sberbank (Rusia):</b> +79932495280 — джеймс</li>
+      <li><b>BCA (Indonesia):</b> 0120-312-103 — James Pangestu</li>
+    </ul>
 
-<footer>
-<p>&copy; 2025 TemanRusiaKamu. Membawa cita rasa Nusantara ke seluruh dunia!</p>
-</footer>
+    <form action="https://formsubmit.co/jamespangestu.de@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="Pesanan Baru dari TemanRusiaKamu">
+      <input type="hidden" name="_captcha" value="false">
 
-<script>
-const products = [
-{id:1,name:'Nasi Goreng Yummy',price:140,stock:1,category:'bumbu',image:'./images/Nasgor2.jpg',description:'Nasi Goreng Yummy merek Kokita, isi 60 gram'},
-{id:2,name:'Bumbu Royco Sapi',price:140,stock:2,category:'bumbu',image:'./images/Royco.jpg',description:'isi 6 sachet'},
-{id:3,name:'Sambel Uleg',price:140,stock:1,category:'bumbu',image:'./images/Sambel Uleg.jpg',description:'Isi 5 sachet'},
-{id:4,name:'Tolak Angin',price:50,stock:5,category:'obat',image:'./images/Tolak Angin.jpg',description:'Isi 5 Sachet'},
-{id:5,name:'Kari Jepang',price:200,stock:60,category:'bumbu',image:'./images/Kari Jepang.jpg',description:'Kari Jepang Merek Sasa'},
-{id:6,name:'Bumbu Soto Betawi',price:140,stock:4,category:'bumbu',image:'./images/Soto Betawi.jpg',description:'Bumbu soto betawi lengkap, tinggal tambah santan'}
-];
+      <label>Nama Lengkap:</label>
+      <input type="text" name="Nama" required>
 
-let cart = [];
-let currentFilter = 'semua';
+      <label>Email:</label>
+      <input type="email" name="Email" required>
 
-function displayProducts(filter='semua'){
-const container=document.getElementById('productContainer');
-const filteredProducts=filter==='semua'?products:products.filter(p=>p.category===filter);
-container.innerHTML=filteredProducts.map(p=>`
-<div class="product-card">
-<img src="${p.image}" alt="${p.name}" class="product-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22><rect fill=%22%23f4e4c1%22 width=%22400%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22>🍜</text></svg>'">
-<div class="product-info">
-<div class="product-name">${p.name}</div>
-<div class="product-description">${p.description}</div>
-<div class="product-stock ${p.stock<10?'low':''}">Stok: ${p.stock} tersedia</div>
-<div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
-<button class="add-to-cart" onclick="addToCart(${p.id})" ${p.stock===0?'disabled':''}>${p.stock===0?'Stok Habis':'Tambah ke Keranjang'}</button>
-</div></div>`).join('');
-}
+      <label>Detail Belanja:</label>
+      <textarea name="Detail Belanja" id="orderDetails" readonly></textarea>
 
-function filterProducts(category,event){
-currentFilter=category;
-displayProducts(category);
-document.querySelectorAll('.category-btn').forEach(btn=>btn.classList.remove('active'));
-if(event) event.target.classList.add('active');
-}
+      <label>Total Belanja (Ruble):</label>
+      <input type="text" name="Total" id="orderTotal" readonly>
 
-function addToCart(productId){
-const product=products.find(p=>p.id===productId);
-const existing=cart.find(i=>i.id===productId);
-if(existing) existing.quantity++; else cart.push({...product,quantity:1});
-updateCart();
-showNotification('Produk ditambahkan ke keranjang!');
-}
+      <label>Upload Bukti Pembayaran:</label>
+      <input type="file" name="Bukti Pembayaran" accept="image/*" required>
 
-function updateCart(){
-const cartCount=document.getElementById('cartCount');
-const cartItems=document.getElementById('cartItems');
-const cartTotal=document.getElementById('cartTotal');
-const totalItems=cart.reduce((sum,item)=>sum+item.quantity,0);
-cartCount.textContent=totalItems;
-if(cart.length===0){cartItems.innerHTML='<div class="empty-cart">Keranjang belanja kosong</div>';cartTotal.textContent='Total: Rp 0';return;}
-cartItems.innerHTML=cart.map(item=>`
-<div class="cart-item">
-<div><strong>${item.name}</strong><br>Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}</div>
-<div>
-<button onclick="changeQuantity(${item.id},-1)" style="padding:5px 10px;margin:0 5px;cursor:pointer;">-</button>
-<button onclick="changeQuantity(${item.id},1)" style="padding:5px 10px;margin:0 5px;cursor:pointer;">+</button>
-<button onclick="removeFromCart(${item.id})" style="padding:5px 10px;margin:0 5px;background:#f44336;color:white;border:none;cursor:pointer;">🗑️</button>
-</div></div>`).join('');
-const total=cart.reduce((sum,item)=>sum+(item.price*item.quantity),0);
-cartTotal.textContent=`Total: Rp ${total.toLocaleString('id-ID')}`;
-}
+      <button type="submit">Kirim Pesanan</button>
+    </form>
+  </div>
 
-function changeQuantity(productId,change){
-const item=cart.find(i=>i.id===productId);
-if(item){item.quantity+=change;if(item.quantity<=0){removeFromCart(productId);}else{updateCart();}}
-}
+  <footer>
+    <p>&copy; 2025 TemanRusiaKamu. Membawa cita rasa Nusantara ke seluruh dunia!</p>
+  </footer>
 
-function removeFromCart(productId){cart=cart.filter(item=>item.id!==productId);updateCart();}
+  <script>
+    const products = [
+      { id: 1, name: 'Nasi Goreng Yummy', price: 140, image: './images/Nasgor2.jpg' },
+      { id: 2, name: 'Bumbu Royco Sapi', price: 140, image: './images/Royco.jpg' },
+      { id: 3, name: 'Sambel Uleg', price: 140, image: './images/Sambel Uleg.jpg' },
+      { id: 4, name: 'Tolak Angin', price: 50, image: './images/Tolak Angin.jpg' },
+      { id: 5, name: 'Kari Jepang', price: 200, image: './images/Kari Jepang.jpg' },
+      { id: 6, name: 'Bumbu Soto Betawi', price: 140, image: './images/Soto Betawi.jpg' }
+    ];
 
-function toggleCart(){
-const modal=document.getElementById('cartModal');
-modal.style.display=modal.style.display==='flex'?'none':'flex';
-}
+    let cart = [];
 
-function openCheckoutPopup(){
-if(cart.length===0){alert('Keranjang belanja kosong!');return;}
-document.getElementById('cartModal').style.display='none';
-const popup=document.getElementById('checkoutPopup');
-const itemsDiv=document.getElementById('popup-items');
-const totalDiv=document.getElementById('popup-total');
-itemsDiv.innerHTML=cart.map(i=>`<div>${i.name} - Rp ${i.price.toLocaleString('id-ID')} x ${i.quantity}</div>`).join('');
-const total=cart.reduce((sum,i)=>sum+(i.price*i.quantity),0);
-totalDiv.textContent=`Total: Rp ${total.toLocaleString('id-ID')}`;
-popup.style.display='flex';
-}
+    function displayProducts() {
+      const container = document.getElementById('productContainer');
+      container.innerHTML = products.map(p => `
+        <div class="product-card">
+          <img src="${p.image}" alt="${p.name}" class="product-image">
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">${p.price} Ruble</div>
+            <button class="add-to-cart" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
+          </div>
+        </div>
+      `).join('');
+    }
 
-function closeCheckoutPopup(){document.getElementById('checkoutPopup').style.display='none';}
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id);
+      if (existing) existing.qty++;
+      else cart.push({ ...product, qty: 1 });
+      updateCart();
+    }
 
-document.getElementById('send-email-btn').addEventListener('click',()=>{
-const fileInput=document.getElementById('payment-proof');
-if(fileInput.files.length===0){alert('Silakan upload bukti pembayaran!');return;}
-const formData=new FormData();
-formData.append('payment',fileInput.files[0]);
-formData.append('items',JSON.stringify(cart));
-formData.append('total',cart.reduce((sum,i)=>sum+(i.price*i.quantity),0));
-// Kirim ke PHP backend
-fetch('send_email.php',{method:'POST',body:formData})
-.then(res=>res.text()).then(res=>{
-alert(res);
-cart=[];updateCart();closeCheckoutPopup();
-}).catch(err=>alert('Terjadi kesalahan: '+err));
-});
+    function updateCart() {
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+      const cartCount = document.getElementById('cartCount');
 
-function showNotification(message){
-const n=document.createElement('div');
-n.textContent=message;
-n.style.cssText='position:fixed;top:100px;right:20px;background:#4caf50;color:white;padding:1rem 2rem;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:2000;animation:slideIn 0.3s ease;';
-document.body.appendChild(n);
-setTimeout(()=>{n.style.animation='slideOut 0.3s ease';setTimeout(()=>n.remove(),300);},2000);
-}
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Keranjang kosong.</p>';
+        cartTotal.textContent = 'Total: 0 Ruble';
+        cartCount.textContent = '0';
+        return;
+      }
 
-const style=document.createElement('style');
-style.textContent='@keyframes slideIn{from{transform:translateX(400px);opacity:0;}to{transform:translateX(0);opacity:1;}}@keyframes slideOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(400px);opacity:0;}}';
-document.head.appendChild(style);
+      cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <span>${item.name} (${item.qty})</span>
+          <span>${item.price * item.qty} Ruble</span>
+        </div>
+      `).join('');
 
-displayProducts();
-</script>
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      cartTotal.textContent = 'Total: ' + total + ' Ruble';
+      cartCount.textContent = cart.reduce((s, i) => s + i.qty, 0);
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+      if (modal.style.display === '') modal.style.display = 'flex';
+    }
+
+    function showCheckout() {
+      if (cart.length === 0) {
+        alert('Keranjang belanja kosong!');
+        return;
+      }
+      const details = cart.map(i => `${i.name} (${i.qty})`).join(', ');
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+      document.getElementById('orderDetails').value = details;
+      document.getElementById('orderTotal').value = total + ' Ruble';
+      document.getElementById('checkoutForm').style.display = 'block';
+      toggleCart();
+    }
+
+    displayProducts();
+  </script>
 </body>
 </html>
