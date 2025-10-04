@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NusantaraSnack - Bumbu & Snack Nusantara</title>
+    <title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -84,7 +83,7 @@
         }
 
         .hero {
-            background: linear-gradient(rgba(198, 40, 40, 0.8), rgba(211, 47, 47, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f4e4c1" width="1200" height="400"/><circle cx="200" cy="100" r="50" fill="%23c62828" opacity="0.1"/><circle cx="800" cy="300" r="80" fill="%23d32f2f" opacity="0.1"/></svg>');
+            background: linear-gradient(rgba(198, 40, 40, 0.8), rgba(211, 47, 47, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f4e4c1" width="1200" height="400"/><circle cx="200" cy="100" r="50" fill="%23c62828" opacity="0.1"/><circle cx="800" cy="300" r="80" fill="%23d32f2f" opacity="0.1"/><circle cx="1000" cy="150" r="60" fill="%23c62828" opacity="0.1"/></svg>');
             background-size: cover;
             background-position: center;
             color: white;
@@ -142,25 +141,6 @@
             box-shadow: 0 4px 8px rgba(198, 40, 40, 0.3);
         }
 
-        .add-product-btn {
-            display: block;
-            margin: 0 auto 2rem;
-            padding: 0.8rem 2rem;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .add-product-btn:hover {
-            background: #388e3c;
-            transform: translateY(-2px);
-        }
-
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -173,7 +153,7 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -187,43 +167,6 @@
             object-fit: cover;
             background: #f4e4c1;
         }
-
-        .product-actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .product-actions button {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .edit-btn {
-            background: #2196f3;
-            color: white;
-        }
-
-        .delete-btn {
-            background: #f44336;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background: #1976d2;
-        }
-
-        .delete-btn:hover {
-            background: #d32f2f;
-        }
-
         .product-info {
             padding: 1.5rem;
         }
@@ -235,17 +178,26 @@
             color: #333;
         }
 
+	
         .product-description {
             font-size: 0.9rem;
             color: #666;
             margin-bottom: 0.5rem;
+            line-height: 1.4;
         }
 
         .product-stock {
             font-size: 0.85rem;
             color: #888;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
+
+        .product-stock.low {
+            color: #f44336;
+            font-weight: bold;
+        }
+	
+
 
         .product-price {
             font-size: 1.3rem;
@@ -271,12 +223,7 @@
             background: #b71c1c;
         }
 
-        .add-to-cart:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .modal {
+        .cart-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -287,123 +234,29 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
         }
 
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
+        .cart-content {
             background: white;
             padding: 2rem;
             border-radius: 12px;
             max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
+            width: 90%;
+            max-height: 80vh;
             overflow-y: auto;
         }
 
-        .modal-header {
+        .cart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
 
-        .modal-header h2 {
-            color: #c62828;
-        }
-
-        .close-modal {
+        .close-cart {
             font-size: 1.5rem;
             cursor: pointer;
             color: #666;
-            border: none;
-            background: none;
-            padding: 0;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .image-upload {
-            border: 2px dashed #ddd;
-            padding: 2rem;
-            text-align: center;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .image-upload:hover {
-            border-color: #c62828;
-            background: #fff5f5;
-        }
-
-        .image-preview {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 1rem;
-            border-radius: 6px;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 1rem;
-            background: #c62828;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .btn-primary:hover {
-            background: #b71c1c;
-        }
-
-        .btn-success {
-            width: 100%;
-            padding: 1rem;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.3s;
-            margin-top: 1rem;
-        }
-
-        .btn-success:hover {
-            background: #388e3c;
         }
 
         .cart-item {
@@ -414,39 +267,6 @@
             border-bottom: 1px solid #eee;
         }
 
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-controls {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .cart-item-controls button {
-            padding: 0.3rem 0.7rem;
-            border: none;
-            background: #ddd;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .cart-item-controls button:hover {
-            background: #ccc;
-        }
-
-        .remove-item {
-            background: #f44336 !important;
-            color: white;
-            padding: 0.3rem 0.6rem !important;
-        }
-
-        .remove-item:hover {
-            background: #d32f2f !important;
-        }
-
         .cart-total {
             margin-top: 1.5rem;
             font-size: 1.5rem;
@@ -455,28 +275,22 @@
             color: #c62828;
         }
 
-        .empty-cart {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-        }
-
-        .notification {
-            position: fixed;
-            top: 100px;
-            right: 20px;
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
             background: #4caf50;
             color: white;
-            padding: 1rem 2rem;
+            border: none;
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 2000;
-            animation: slideIn 0.3s ease;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: background 0.3s;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .checkout-btn:hover {
+            background: #388e3c;
         }
 
         footer {
@@ -487,13 +301,19 @@
             margin-top: 4rem;
         }
 
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
             }
 
             .nav-links {
-                display: none;
+                gap: 1rem;
             }
 
             .products {
@@ -505,10 +325,11 @@
 <body>
     <header>
         <nav>
-            <div class="logo">🌶️ NusantaraSnack</div>
+            <div class="logo">🌶️ TemanRusiaKamu</div>
             <ul class="nav-links">
                 <li><a href="#home">Beranda</a></li>
                 <li><a href="#products">Produk</a></li>
+                <li><a href="#about">Tentang</a></li>
             </ul>
             <div class="cart-icon" onclick="toggleCart()">
                 🛒
@@ -518,14 +339,12 @@
     </header>
 
     <section class="hero" id="home">
-        <h1>Selamat Datang di NusantaraSnack!</h1>
+        <h1>Selamat Datang di TemanRusiaKamu!</h1>
         <p>Bumbu & Snack Nusantara Terbaik untuk Anda</p>
     </section>
 
     <div class="container" id="products">
         <h2 class="section-title">Produk Kami</h2>
-        
-        <button class="add-product-btn" onclick="openAddProduct()">➕ Tambah Produk Baru</button>
         
         <div class="categories">
             <button class="category-btn active" onclick="filterProducts('semua')">Semua</button>
@@ -536,166 +355,99 @@
         <div class="products" id="productContainer"></div>
     </div>
 
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
                 <h2>Keranjang Belanja</h2>
-                <button class="close-modal" onclick="toggleCart()">✕</button>
+                <span class="close-cart" onclick="toggleCart()">✕</span>
             </div>
             <div id="cartItems"></div>
             <div class="cart-total" id="cartTotal">Total: Rp 0</div>
-            <button class="btn-success" onclick="openCheckout()">Lanjut ke Checkout</button>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div class="modal" id="checkoutModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Checkout</h2>
-                <button class="close-modal" onclick="closeCheckout()">✕</button>
-            </div>
-            <form onsubmit="processCheckout(event)">
-                <div class="form-group">
-                    <label>Nama Lengkap *</label>
-                    <input type="text" id="checkoutName" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="checkoutEmail">
-                </div>
-                <div class="form-group">
-                    <label>Nomor Telepon *</label>
-                    <input type="tel" id="checkoutPhone" required>
-                </div>
-                <div class="form-group">
-                    <label>Alamat Lengkap *</label>
-                    <textarea id="checkoutAddress" required placeholder="Jalan, Kota, Provinsi, Kode Pos"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Metode Pembayaran *</label>
-                    <select id="paymentMethod" required>
-                        <option value="">Pilih Metode Pembayaran</option>
-                        <option value="transfer">Transfer Bank</option>
-                        <option value="cod">COD (Bayar di Tempat)</option>
-                        <option value="ewallet">E-Wallet (GoPay/OVO/Dana)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Metode Pengiriman *</label>
-                    <select id="shippingMethod" required onchange="updateShippingCost()">
-                        <option value="">Pilih Metode Pengiriman</option>
-                        <option value="reguler" data-cost="10000">Reguler (3-5 hari) - Rp 10.000</option>
-                        <option value="express" data-cost="25000">Express (1-2 hari) - Rp 25.000</option>
-                        <option value="sameday" data-cost="40000">Same Day - Rp 40.000</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Catatan Pesanan (Opsional)</label>
-                    <textarea id="orderNotes" placeholder="Contoh: Jangan bel, langsung ketuk pintu"></textarea>
-                </div>
-                <div style="background: #f5f5f5; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                    <h3 style="margin-bottom: 0.5rem;">Ringkasan Pesanan:</h3>
-                    <div id="checkoutSummary"></div>
-                    <div style="border-top: 2px solid #ddd; margin-top: 0.5rem; padding-top: 0.5rem;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
-                            <span>Subtotal:</span>
-                            <span id="subtotalPrice">Rp 0</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
-                            <span>Ongkir:</span>
-                            <span id="shippingPrice">Rp 0</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem; color: #c62828;">
-                            <span>Total:</span>
-                            <span id="totalPrice">Rp 0</span>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="btn-success">Konfirmasi Pesanan</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit/Add Product Modal -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="productModalTitle">Tambah Produk</h2>
-                <button class="close-modal" onclick="closeProductModal()">✕</button>
-            </div>
-            <form onsubmit="saveProduct(event)">
-                <div class="form-group">
-                    <label>Nama Produk *</label>
-                    <input type="text" id="productName" required>
-                </div>
-                <div class="form-group">
-                    <label>Harga (Rp) *</label>
-                    <input type="number" id="productPrice" required min="0">
-                </div>
-                <div class="form-group">
-                    <label>Stok *</label>
-                    <input type="number" id="productStock" required min="0">
-                </div>
-                <div class="form-group">
-                    <label>Kategori *</label>
-                    <select id="productCategory" required>
-                        <option value="bumbu">Bumbu</option>
-                        <option value="snack">Snack</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Deskripsi Produk *</label>
-                    <textarea id="productDescription" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Gambar Produk</label>
-                    <div class="image-upload" onclick="document.getElementById('imageInput').click()">
-                        <p>📷 Klik untuk upload gambar</p>
-                        <p style="font-size: 0.9rem; color: #666;">atau masukkan URL gambar</p>
-                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                        <img id="imagePreview" class="image-preview" style="display: none;">
-                    </div>
-                    <input type="text" id="productImage" placeholder="Atau masukkan URL gambar (https://...)" style="margin-top: 0.5rem; padding: 0.5rem; width: 100%; border: 1px solid #ddd; border-radius: 4px;">
-                </div>
-                <button type="submit" class="btn-primary">Simpan Produk</button>
-            </form>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 NusantaraSnack. Membawa cita rasa Nusantara ke seluruh dunia!</p>
+        <p>&copy; 2025 TemanRusiaKamu. Membawa cita rasa Nusantara ke seluruh dunia!</p>
     </footer>
 
     <script>
-        let products = [
-            { id: 1, name: 'Rendang Bumbu Instan', price: 15000, stock: 50, category: 'bumbu', image: 'https://images.unsplash.com/photo-1596040033229-a0b55b42ecd1?w=400', description: 'Bumbu rendang authentic dengan rempah pilihan' },
-            { id: 2, name: 'Sambal Terasi Premium', price: 25000, stock: 30, category: 'bumbu', image: 'https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=400', description: 'Sambal terasi pedas khas nusantara' },
-            { id: 3, name: 'Keripik Singkong Pedas', price: 12000, stock: 100, category: 'snack', image: 'https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400', description: 'Keripik singkong renyah dengan bumbu pedas' },
-            { id: 4, name: 'Kerupuk Udang Jumbo', price: 30000, stock: 45, category: 'snack', image: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400', description: 'Kerupuk udang premium ukuran jumbo' }
-        ];
+        const products = [
+    { 
+        id: 1, 
+        name: 'Rendang Bumbu Instan', 
+        price: 15000, 
+        stock: 50,
+        category: 'bumbu', 
+        image: 'https://images.unsplash.com/photo-1596040033229-a0b55b42ecd1?w=400',
+        description: 'Bumbu rendang authentic dengan rempah pilihan, mudah dimasak'
+    },
+    { 
+        id: 2, 
+        name: 'Sambal Terasi Premium', 
+        price: 25000, 
+        stock: 30,
+        category: 'bumbu', 
+        image: 'https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=400',
+        description: 'Sambal terasi pedas dengan cita rasa khas nusantara'
+    },
+    { 
+        id: 3, 
+        name: 'Keripik Singkong Pedas', 
+        price: 12000, 
+        stock: 100,
+        category: 'snack', 
+        image: 'https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400',
+        description: 'Keripik singkong renyah dengan bumbu pedas yang menggigit'
+    },
+    { 
+        id: 4, 
+        name: 'Kerupuk Udang Jumbo', 
+        price: 30000, 
+        stock: 45,
+        category: 'snack', 
+        image: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400',
+        description: 'Kerupuk udang premium dengan ukuran jumbo'
+    },
+    { 
+        id: 5, 
+        name: 'Emping Melinjo Original', 
+        price: 22000, 
+        stock: 60,
+        category: 'snack', 
+        image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400',
+        description: 'Emping melinjo asli dengan rasa pahit khas'
+    },
+    { 
+        id: 6, 
+        name: 'Bumbu Soto Betawi', 
+        price: 16000, 
+        stock: 40,
+        category: 'bumbu', 
+        image: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400',
+        description: 'Bumbu soto betawi lengkap, tinggal tambah santan'
+    }
+];
 
         let cart = [];
         let currentFilter = 'semua';
-        let editingProductId = null;
-        let shippingCost = 0;
 
         function displayProducts(filter = 'semua') {
             const container = document.getElementById('productContainer');
-            const filteredProducts = filter === 'semua' ? products : products.filter(p => p.category === filter);
+            const filteredProducts = filter === 'semua' 
+                ? products 
+                : products.filter(p => p.category === filter);
 
             container.innerHTML = filteredProducts.map(product => `
                 <div class="product-card">
-                    <div class="product-actions">
-                        <button class="edit-btn" onclick="editProduct(${product.id})" title="Edit Produk">✏️</button>
-                        <button class="delete-btn" onclick="deleteProduct(${product.id})" title="Hapus Produk">🗑️</button>
-                    </div>
-                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22><rect fill=%22%23f4e4c1%22 width=%22400%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22>🍜</text></svg>'">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" 
+                        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22><rect fill=%22%23f4e4c1%22 width=%22400%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22>🍜</text></svg>'">
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
                         <div class="product-description">${product.description}</div>
-                        <div class="product-stock">Stok: ${product.stock}</div>
+                        <div class="product-stock ${product.stock < 10 ? 'low' : ''}">
+                            Stok: ${product.stock} tersedia
+                        </div>
                         <div class="product-price">Rp ${product.price.toLocaleString('id-ID')}</div>
                         <button class="add-to-cart" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
                             ${product.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
@@ -708,30 +460,25 @@
         function filterProducts(category) {
             currentFilter = category;
             displayProducts(category);
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
             event.target.classList.add('active');
         }
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
-            if (product.stock <= 0) {
-                alert('Maaf, produk ini sedang habis!');
-                return;
-            }
-
             const existingItem = cart.find(item => item.id === productId);
+
             if (existingItem) {
-                if (existingItem.quantity >= product.stock) {
-                    alert('Stok tidak mencukupi!');
-                    return;
-                }
                 existingItem.quantity++;
             } else {
                 cart.push({ ...product, quantity: 1 });
             }
 
             updateCart();
-            showNotification('Produk ditambahkan ke keranjang! 🛒');
+            showNotification('Produk ditambahkan ke keranjang!');
         }
 
         function updateCart() {
@@ -750,15 +497,14 @@
 
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <div class="cart-item-info">
+                    <div>
                         <strong>${item.name}</strong><br>
-                        <span style="color: #c62828; font-weight: bold;">Rp ${item.price.toLocaleString('id-ID')}</span> x ${item.quantity}
+                        Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}
                     </div>
-                    <div class="cart-item-controls">
-                        <button onclick="changeQuantity(${item.id}, -1)">-</button>
-                        <span style="font-weight: bold;">${item.quantity}</span>
-                        <button onclick="changeQuantity(${item.id}, 1)">+</button>
-                        <button class="remove-item" onclick="removeFromCart(${item.id})">🗑️</button>
+                    <div>
+                        <button onclick="changeQuantity(${item.id}, -1)" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">-</button>
+                        <button onclick="changeQuantity(${item.id}, 1)" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">+</button>
+                        <button onclick="removeFromCart(${item.id})" style="padding: 5px 10px; margin: 0 5px; background: #f44336; color: white; border: none; cursor: pointer;">🗑️</button>
                     </div>
                 </div>
             `).join('');
@@ -768,19 +514,12 @@
         }
 
         function changeQuantity(productId, change) {
-            const product = products.find(p => p.id === productId);
             const item = cart.find(i => i.id === productId);
-            
             if (item) {
-                const newQuantity = item.quantity + change;
-                if (newQuantity > product.stock) {
-                    alert('Stok tidak mencukupi!');
-                    return;
-                }
-                if (newQuantity <= 0) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
                     removeFromCart(productId);
                 } else {
-                    item.quantity = newQuantity;
                     updateCart();
                 }
             }
@@ -792,200 +531,62 @@
         }
 
         function toggleCart() {
-            document.getElementById('cartModal').classList.toggle('active');
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        function openCheckout() {
+        function checkout() {
             if (cart.length === 0) {
-                alert('Keranjang belanja kosong!');
-                return;
-            }
-            
-            toggleCart();
-            
-            const summary = cart.map(item => `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem; font-size: 0.9rem;">
-                    <span>${item.name} (${item.quantity}x)</span>
-                    <span>Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
-                </div>
-            `).join('');
-            
-            document.getElementById('checkoutSummary').innerHTML = summary;
-            updateCheckoutTotal();
-            document.getElementById('checkoutModal').classList.add('active');
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkoutModal').classList.remove('active');
-        }
-
-        function updateShippingCost() {
-            const select = document.getElementById('shippingMethod');
-            const selectedOption = select.options[select.selectedIndex];
-            shippingCost = parseInt(selectedOption.getAttribute('data-cost')) || 0;
-            updateCheckoutTotal();
-        }
-
-        function updateCheckoutTotal() {
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const total = subtotal + shippingCost;
-            
-            document.getElementById('subtotalPrice').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
-            document.getElementById('shippingPrice').textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
-            document.getElementById('totalPrice').textContent = `Rp ${total.toLocaleString('id-ID')}`;
-        }
-
-        function processCheckout(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('checkoutName').value;
-            const phone = document.getElementById('checkoutPhone').value;
-            const address = document.getElementById('checkoutAddress').value;
-            const payment = document.getElementById('paymentMethod').value;
-            const shipping = document.getElementById('shippingMethod').value;
-            
-            if (!name || !phone || !address || !payment || !shipping) {
-                alert('Mohon lengkapi semua data!');
+                alert('Keranjang belanja Anda kosong!');
                 return;
             }
 
-            // Update stok produk
-            cart.forEach(cartItem => {
-                const product = products.find(p => p.id === cartItem.id);
-                if (product) {
-                    product.stock -= cartItem.quantity;
-                }
-            });
-
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const total = subtotal + shippingCost;
-            const orderDetails = cart.map(item => `${item.name} (${item.quantity}x)`).join(', ');
-            
-            alert(`✅ Pesanan Berhasil!\n\nNama: ${name}\nTelepon: ${phone}\nAlamat: ${address}\nPembayaran: ${payment}\nPengiriman: ${shipping}\n\nProduk: ${orderDetails}\nSubtotal: Rp ${subtotal.toLocaleString('id-ID')}\nOngkir: Rp ${shippingCost.toLocaleString('id-ID')}\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nTerima kasih atas pesanan Anda!`);
-            
-            // Reset
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Terima kasih atas pesanan Anda!\n\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nPesanan akan segera diproses.`);
             cart = [];
-            shippingCost = 0;
             updateCart();
-            displayProducts(currentFilter);
-            closeCheckout();
-            
-            // Reset form
-            document.getElementById('checkoutName').value = '';
-            document.getElementById('checkoutEmail').value = '';
-            document.getElementById('checkoutPhone').value = '';
-            document.getElementById('checkoutAddress').value = '';
-            document.getElementById('paymentMethod').value = '';
-            document.getElementById('shippingMethod').value = '';
-            document.getElementById('orderNotes').value = '';
-        }
-
-        function openAddProduct() {
-            editingProductId = null;
-            document.getElementById('productModalTitle').textContent = 'Tambah Produk';
-            document.getElementById('productName').value = '';
-            document.getElementById('productPrice').value = '';
-            document.getElementById('productStock').value = '';
-            document.getElementById('productCategory').value = 'snack';
-            document.getElementById('productDescription').value = '';
-            document.getElementById('productImage').value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-            document.getElementById('productModal').classList.add('active');
-        }
-
-        function editProduct(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            editingProductId = productId;
-            document.getElementById('productModalTitle').textContent = 'Edit Produk';
-            document.getElementById('productName').value = product.name;
-            document.getElementById('productPrice').value = product.price;
-            document.getElementById('productStock').value = product.stock;
-            document.getElementById('productCategory').value = product.category;
-            document.getElementById('productDescription').value = product.description;
-            document.getElementById('productImage').value = product.image;
-            
-            if (product.image) {
-                document.getElementById('imagePreview').src = product.image;
-                document.getElementById('imagePreview').style.display = 'block';
-            }
-            
-            document.getElementById('productModal').classList.add('active');
-        }
-
-        function closeProductModal() {
-            document.getElementById('productModal').classList.remove('active');
-            editingProductId = null;
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('imagePreview').style.display = 'block';
-                    document.getElementById('productImage').value = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function saveProduct(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('productName').value;
-            const price = parseInt(document.getElementById('productPrice').value);
-            const stock = parseInt(document.getElementById('productStock').value);
-            const category = document.getElementById('productCategory').value;
-            const description = document.getElementById('productDescription').value;
-            const image = document.getElementById('productImage').value || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22><rect fill=%22%23f4e4c1%22 width=%22400%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22>🍜</text></svg>';
-            
-            if (editingProductId) {
-                // Update existing product
-                const product = products.find(p => p.id === editingProductId);
-                product.name = name;
-                product.price = price;
-                product.stock = stock;
-                product.category = category;
-                product.description = description;
-                product.image = image;
-                showNotification('Produk berhasil diupdate! ✅');
-            } else {
-                // Add new product
-                const newProduct = {
-                    id: Date.now(),
-                    name,
-                    price,
-                    stock,
-                    category,
-                    description,
-                    image
-                };
-                products.push(newProduct);
-                showNotification('Produk baru berhasil ditambahkan! ✅');
-            }
-            
-            displayProducts(currentFilter);
-            closeProductModal();
-        }
-
-        function deleteProduct(productId) {
-            if (confirm('Yakin ingin menghapus produk ini?')) {
-                products = products.filter(p => p.id !== productId);
-                displayProducts(currentFilter);
-                showNotification('Produk berhasil dihapus! 🗑️');
-            }
+            toggleCart();
         }
 
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.textContent = message;
-            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #4caf50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 6px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
             document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
         }
 
         // Initialize
         displayProducts();
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
