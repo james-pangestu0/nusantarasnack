@@ -1,291 +1,223 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;color:#333;line-height:1.5}
-    header{background:linear-gradient(135deg,#c62828,#d32f2f);color:#fff;padding:1rem;position:sticky;top:0;z-index:30}
-    nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-    .logo{font-weight:700;font-size:1.25rem}
-    .cart-icon{cursor:pointer;position:relative}
-    .cart-count{position:absolute;top:-8px;right:-12px;background:#ffc107;color:#333;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700}
-    .container{max-width:1100px;margin:2rem auto;padding:0 1rem}
-    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
-    .product-card{background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.08);overflow:hidden}
-    .product-image{width:100%;height:160px;object-fit:cover;background:#f4e4c1}
-    .product-info{padding:1rem}
-    .product-name{font-weight:700;margin-bottom:.5rem}
-    .product-price{color:#c62828;font-weight:700;margin-bottom:.75rem}
-    .add-to-cart{background:#c62828;color:#fff;border:none;padding:.6rem 0;border-radius:8px;width:100%;cursor:pointer}
-    .cart-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:60}
-    .cart-modal.open{display:flex}
-    .cart-content{background:#fff;border-radius:10px;padding:1.25rem;max-width:540px;width:92%;max-height:80vh;overflow:auto}
-    .cart-item{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #eee}
-    .cart-total{text-align:right;font-weight:700;color:#c62828;margin-top:.75rem}
-    .checkout-btn{display:block;width:100%;padding:.9rem;border-radius:8px;border:none;cursor:pointer;margin-top:1rem;background:#4caf50;color:#fff}
-    #checkoutForm{max-width:720px;margin:1.5rem auto;padding:1rem;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:none}
-    label{display:block;font-weight:600;margin-top:.6rem}
-    input[type="text"],input[type="email"],textarea,input[type="file"]{width:100%;padding:.6rem;border:1px solid #ccc;border-radius:6px;margin-top:.4rem}
-    .pay-info{background:#fff3e0;border-left:4px solid #ffb74d;padding:.8rem;margin:0.75rem 0;border-radius:6px}
-    .muted{font-size:.95rem;color:#555}
-    footer{padding:1.5rem;text-align:center;background:#222;color:#fff;margin-top:2rem}
-    @media (max-width:600px){.product-image{height:140px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Segoe UI,Tahoma,sans-serif;line-height:1.6;color:#333;background:#fafafa}
+header{background:linear-gradient(135deg,#c62828,#d32f2f);color:#fff;padding:1rem;position:sticky;top:0;z-index:20}
+nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.3rem;font-weight:700}
+.cart-icon{position:relative;font-size:1.5rem;cursor:pointer}
+.cart-count{position:absolute;top:-8px;right:-10px;background:#ffc107;color:#333;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.container{max-width:1100px;margin:2rem auto;padding:0 1rem}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.product-card{background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.1);overflow:hidden;transition:.3s}
+.product-card:hover{transform:translateY(-3px)}
+.product-image{width:100%;height:180px;object-fit:cover;background:#f4e4c1}
+.product-info{padding:1rem}
+.product-name{font-weight:700;margin-bottom:.3rem}
+.product-price{color:#c62828;font-weight:700;margin-bottom:.8rem}
+.add-to-cart{background:#c62828;color:#fff;border:none;padding:.7rem;border-radius:6px;width:100%;cursor:pointer}
+.add-to-cart:hover{background:#b71c1c}
+.cart-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:40}
+.cart-modal.open{display:flex}
+.cart-content{background:#fff;border-radius:10px;padding:1.5rem;max-width:500px;width:90%;max-height:80vh;overflow:auto}
+.cart-item{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid #eee}
+.cart-total{text-align:right;font-weight:700;color:#c62828;margin-top:1rem}
+.checkout-btn{background:#4caf50;color:#fff;border:none;width:100%;padding:.9rem;border-radius:6px;margin-top:1rem;cursor:pointer}
+.checkout-btn:hover{background:#388e3c}
+#checkoutForm{max-width:700px;margin:2rem auto;padding:1.5rem;background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,.1);display:none}
+input,textarea{width:100%;padding:.6rem;border:1px solid #ccc;border-radius:6px;margin-top:.4rem}
+label{font-weight:600;display:block;margin-top:.8rem}
+button[type="submit"]{background:#1976d2;color:#fff;border:none;padding:.8rem 1rem;border-radius:6px;cursor:pointer;margin-top:1rem}
+.pay-info{background:#fff8e1;padding:1rem;border-left:5px solid #ffb300;margin:.8rem 0;border-radius:6px}
+footer{background:#222;color:#fff;text-align:center;padding:1.5rem;margin-top:2rem}
+#thankYou{display:none;text-align:center;margin:2rem auto;padding:2rem;background:#fff;border-radius:10px;max-width:500px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+#notification{position:fixed;top:90px;right:20px;background:#4caf50;color:white;padding:1rem 1.5rem;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.2);display:none;z-index:100}
+</style>
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo">🌶️ TemanRusiaKamu</div>
-      <div class="cart-icon" onclick="toggleCart()">
-        🛒 <span id="cartCount" class="cart-count">0</span>
-      </div>
-    </nav>
-  </header>
+<header>
+  <nav>
+    <div class="logo">🌶️ TemanRusiaKamu</div>
+    <div class="cart-icon" onclick="toggleCart()">🛒<span id="cartCount" class="cart-count">0</span></div>
+  </nav>
+</header>
 
-  <main>
-    <section class="container">
-      <h2 style="color:#c62828;margin-bottom:1rem">Produk Kami</h2>
-      <div id="productContainer" class="products"></div>
-    </section>
+<div class="container">
+  <h2 style="color:#c62828;text-align:center;margin-bottom:1.5rem">Produk Kami</h2>
+  <div id="productContainer" class="products"></div>
+</div>
 
-    <!-- Modal Keranjang -->
-    <div id="cartModal" class="cart-modal" aria-hidden="true">
-      <div class="cart-content" role="dialog" aria-modal="true">
-        <h3>Keranjang Belanja</h3>
-        <div id="cartItems" style="margin-top:.6rem"></div>
-        <div id="cartTotal" class="cart-total">Total: 0 Ruble</div>
-        <button class="checkout-btn" onclick="showCheckout()">Checkout</button>
-        <button class="checkout-btn" style="background:#d32f2f;margin-top:.5rem" onclick="toggleCart()">Tutup</button>
-      </div>
-    </div>
+<!-- Modal Keranjang -->
+<div id="cartModal" class="cart-modal">
+  <div class="cart-content">
+    <h3>Keranjang Belanja</h3>
+    <div id="cartItems"></div>
+    <div id="cartTotal" class="cart-total">Total: 0 Ruble</div>
+    <button class="checkout-btn" onclick="showCheckout()">Checkout</button>
+    <button class="checkout-btn" style="background:#d32f2f" onclick="toggleCart()">Tutup</button>
+  </div>
+</div>
 
-    <!-- Form Checkout (disembunyikan sampai user klik Checkout) -->
-    <section id="checkoutForm">
-      <h2>Form Checkout</h2>
-      <p class="muted">Isi data dibawah, lalu kirim bukti pembayaran. Detail belanja, total, dan bukti akan dikirim ke email <b>jamespangestu.de@gmail.com</b>.</p>
+<!-- Form Checkout -->
+<section id="checkoutForm">
+  <h2>Form Checkout</h2>
+  <p>Silakan transfer ke salah satu rekening berikut sebelum mengirim bukti pembayaran.</p>
+  <div class="pay-info">
+    <ul>
+      <li><b>Sberbank (Rusia):</b> +79932495280 — джеймс</li>
+      <li><b>BCA (Indonesia):</b> 0120-312-103 — James Pangestu</li>
+    </ul>
+  </div>
 
-      <!-- INFORMASI PEMBAYARAN YANG DIMINTA -->
-      <div class="pay-info" id="paymentInfoBox" style="display:none">
-        <strong>Informasi Pembayaran</strong>
-        <ul style="margin:.5rem 0 0 1rem">
-          <li><b>Sberbank (Rusia):</b> +79932495280 — джеймс</li>
-          <li><b>BCA (Indonesia):</b> 0120-312-103 — James Pangestu</li>
-        </ul>
-      </div>
+  <form id="orderForm" action="https://formsubmit.co/jamespangestu.de@gmail.com" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_subject" value="Pesanan Baru - TemanRusiaKamu">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
 
-      <!-- FORM (kirim ke FormSubmit) -->
-      <!-- Catatan: FormSubmit mensyaratkan verifikasi alamat email di layanan mereka (cek inbox) -->
-      <form id="orderForm" action="https://formsubmit.co/jamespangestu.de@gmail.com" method="POST" enctype="multipart/form-data" onsubmit="return validateAndSubmit(event)">
-        <!-- Pengaturan formsubmit (opsional) -->
-        <input type="hidden" name="_subject" value="Pesanan Baru - TemanRusiaKamu">
-        <input type="hidden" name="_captcha" value="false">
+    <label>Nama Lengkap:</label>
+    <input type="text" name="Nama" required>
 
-        <!-- Sertakan juga field informasi rekening agar terkirim ke email -->
-        <input type="hidden" name="Rekening Sberbank" value="+79932495280 — джеймс">
-        <input type="hidden" name="Rekening BCA" value="0120-312-103 — James Pangestu">
+    <label>Email:</label>
+    <input type="email" name="Email" required>
 
-        <label for="name">Nama Lengkap</label>
-        <input id="name" name="Nama" type="text" required>
+    <label>Detail Belanja:</label>
+    <textarea name="Detail Belanja" id="orderDetails" readonly></textarea>
 
-        <label for="email">Email</label>
-        <input id="email" name="Email" type="email" required>
+    <label>Total Belanja:</label>
+    <input type="text" name="Total" id="orderTotal" readonly>
 
-        <label for="orderDetails">Detail Belanja (otomatis terisi)</label>
-        <textarea id="orderDetails" name="Detail Belanja" rows="4" readonly></textarea>
+    <label>Upload Bukti Pembayaran:</label>
+    <input type="file" id="proof" name="Bukti Pembayaran" accept="image/*" required>
 
-        <label for="orderTotal">Total Belanja</label>
-        <input id="orderTotal" name="Total" type="text" readonly>
+    <button type="submit">Kirim Pesanan</button>
+  </form>
+</section>
 
-        <label for="proof">Upload Bukti Pembayaran (JPG/PNG/WebP, max 5MB)</label>
-        <input id="proof" name="Bukti Pembayaran" type="file" accept="image/*" required>
+<!-- Pesan Terima Kasih -->
+<div id="thankYou">
+  <h2>🎉 Terima kasih!</h2>
+  <p>Pesanan dan bukti pembayaran Anda telah terkirim.</p>
+  <button onclick="goBackToStore()" style="margin-top:1rem;padding:.8rem 1.5rem;background:#4caf50;color:#fff;border:none;border-radius:6px;cursor:pointer">Kembali ke Toko</button>
+</div>
 
-        <div style="margin-top:.8rem;display:flex;gap:.5rem">
-          <button id="submitBtn" type="submit" style="flex:1;background:#1976d2;color:#fff;padding:.7rem;border:none;border-radius:8px;cursor:pointer">Kirim Pesanan</button>
-          <button type="button" onclick="hideCheckout()" style="flex:1;background:#f44336;color:#fff;padding:.7rem;border:none;border-radius:8px;cursor:pointer">Batal</button>
-        </div>
-        <p class="muted" style="margin-top:.6rem">Catatan: pastikan kamu membuka situs via <b>https</b> (GitHub Pages), tidak melalui file://, agar form dapat dikirim.</p>
-      </form>
-    </section>
-  </main>
+<footer>
+  &copy; 2025 TemanRusiaKamu - Membawa cita rasa Nusantara ke seluruh dunia
+</footer>
 
-  <footer>
-    &copy; 2025 TemanRusiaKamu — Membawa cita rasa Nusantara ke seluruh dunia
-  </footer>
+<!-- Notifikasi -->
+<div id="notification"></div>
 
-  <script>
-    // ===== DATA PRODUK =====
-    const products = [
-      { id: 1, name: 'Nasi Goreng Yummy', price: 140, image: './images/Nasgor2.jpg' },
-      { id: 2, name: 'Bumbu Royco Sapi', price: 140, image: './images/Royco.jpg' },
-      { id: 3, name: 'Sambel Uleg', price: 140, image: './images/Sambel Uleg.jpg' },
-      { id: 4, name: 'Tolak Angin', price: 50, image: './images/Tolak Angin.jpg' },
-      { id: 5, name: 'Kari Jepang', price: 200, image: './images/Kari Jepang.jpg' },
-      { id: 6, name: 'Bumbu Soto Betawi', price: 140, image: './images/Soto Betawi.jpg' }
-    ];
+<script>
+const products=[
+ {id:1,name:"Nasi Goreng Yummy",price:140,image:"./images/Nasgor2.jpg"},
+ {id:2,name:"Bumbu Royco Sapi",price:140,image:"./images/Royco.jpg"},
+ {id:3,name:"Sambel Uleg",price:140,image:"./images/Sambel Uleg.jpg"},
+ {id:4,name:"Tolak Angin",price:50,image:"./images/Tolak Angin.jpg"},
+ {id:5,name:"Kari Jepang",price:200,image:"./images/Kari Jepang.jpg"},
+ {id:6,name:"Bumbu Soto Betawi",price:140,image:"./images/Soto Betawi.jpg"}
+];
+let cart=[];
 
-    let cart = [];
+// ===== RENDER PRODUK =====
+function displayProducts(){
+ const c=document.getElementById("productContainer");
+ c.innerHTML=products.map(p=>`
+  <div class="product-card">
+   <img src="${p.image}" alt="${p.name}" class="product-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22120%22><rect fill=%22%23f4e4c1%22 width=%22250%22 height=%22120%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2230%22>🍜</text></svg>'">
+   <div class="product-info">
+     <div class="product-name">${p.name}</div>
+     <div class="product-price">${p.price} Ruble</div>
+     <button class="add-to-cart" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
+   </div>
+  </div>
+ `).join("");
+}
+displayProducts();
 
-    // ===== RENDER PRODUK =====
-    function displayProducts(){
-      const container = document.getElementById('productContainer');
-      container.innerHTML = products.map(p => {
-        const img = p.image ? p.image : '';
-        return `
-          <div class="product-card">
-            <img class="product-image" src="${img}" alt="${escapeHtml(p.name)}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22120%22><rect fill=%22%23f4e4c1%22 width=%22200%22 height=%22120%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2220%22>🍜</text></svg>'">
-            <div class="product-info">
-              <div class="product-name">${escapeHtml(p.name)}</div>
-              <div class="product-price">${p.price.toLocaleString('id-ID')} Ruble</div>
-              <button class="add-to-cart" onclick="addToCart(${p.id})">Tambah ke Keranjang</button>
-            </div>
-          </div>`;
-      }).join('');
+function addToCart(id){
+ const p=products.find(x=>x.id===id);
+ const exist=cart.find(x=>x.id===id);
+ if(exist) exist.qty++; else cart.push({...p,qty:1});
+ updateCart();
+ showNotification("Produk ditambahkan ke keranjang!");
+}
+
+function updateCart(){
+ const items=document.getElementById("cartItems");
+ const total=document.getElementById("cartTotal");
+ const count=document.getElementById("cartCount");
+ if(cart.length===0){
+  items.innerHTML="<p>Keranjang kosong.</p>";
+  total.textContent="Total: 0 Ruble";
+  count.textContent="0";
+  return;
+ }
+ items.innerHTML=cart.map(i=>`
+  <div class="cart-item">
+   <span>${i.name} (${i.qty})</span>
+   <span>${i.price*i.qty} Ruble</span>
+  </div>`).join("");
+ const sum=cart.reduce((s,i)=>s+i.price*i.qty,0);
+ total.textContent="Total: "+sum+" Ruble";
+ count.textContent=cart.reduce((s,i)=>s+i.qty,0);
+}
+
+function toggleCart(){
+ document.getElementById("cartModal").classList.toggle("open");
+}
+
+function showCheckout(){
+ if(cart.length===0){alert("Keranjang kosong!");return;}
+ const details=cart.map(i=>`${i.name} (${i.qty}) x ${i.price} Ruble = ${i.price*i.qty} Ruble`).join("\\n");
+ const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+ document.getElementById("orderDetails").value=details;
+ document.getElementById("orderTotal").value=total+" Ruble";
+ document.getElementById("checkoutForm").style.display="block";
+ document.getElementById("cartModal").classList.remove("open");
+ window.scrollTo({top:document.getElementById("checkoutForm").offsetTop,behavior:"smooth"});
+}
+
+// === NOTIFIKASI ===
+function showNotification(msg){
+ const n=document.getElementById("notification");
+ n.textContent=msg;
+ n.style.display="block";
+ setTimeout(()=>{n.style.display="none"},2000);
+}
+
+// === VALIDASI & SUBMIT ===
+document.getElementById("orderForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ const file=document.getElementById("proof").files[0];
+ if(!file){alert("Upload bukti pembayaran!");return;}
+ if(!file.type.startsWith("image/")){alert("File harus gambar!");return;}
+ if(file.size>5*1024*1024){alert("Ukuran maksimal 5MB!");return;}
+
+ // Gunakan FormSubmit melalui fetch agar bisa tangkap hasil
+ const formData=new FormData(this);
+ fetch(this.action,{method:"POST",body:formData})
+  .then(res=>{
+    if(res.ok){
+      document.getElementById("checkoutForm").style.display="none";
+      document.getElementById("thankYou").style.display="block";
+      cart=[];updateCart();
+    } else {
+      alert("Gagal mengirim. Pastikan situs diakses via HTTPS dan email FormSubmit sudah diverifikasi.");
     }
+  })
+  .catch(()=>alert("Gagal mengirim. Coba lagi atau cek koneksi internet."));
+});
 
-    // ===== CART FUNCTIONS =====
-    function addToCart(id) {
-      const prod = products.find(p => p.id === id);
-      if (!prod) return;
-      const existing = cart.find(i => i.id === id);
-      if (existing) existing.qty++;
-      else cart.push({ ...prod, qty: 1 });
-      updateCart();
-    }
-
-    function updateCart() {
-      const cartItems = document.getElementById('cartItems');
-      const cartTotal = document.getElementById('cartTotal');
-      const cartCount = document.getElementById('cartCount');
-
-      if (cart.length === 0) {
-        cartItems.innerHTML = '<p class="muted">Keranjang kosong.</p>';
-        cartTotal.textContent = 'Total: 0 Ruble';
-        cartCount.textContent = '0';
-        return;
-      }
-
-      cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-          <div>
-            <div style="font-weight:700">${escapeHtml(item.name)}</div>
-            <div class="muted">Harga: ${item.price.toLocaleString('id-ID')} Ruble</div>
-          </div>
-          <div style="text-align:right">
-            <div style="margin-bottom:.5rem">${item.price * item.qty} Ruble</div>
-            <div>
-              <button onclick="changeQty(${item.id}, -1)" style="margin-right:.25rem">-</button>
-              <span>${item.qty}</span>
-              <button onclick="changeQty(${item.id}, 1)" style="margin-left:.25rem">+</button>
-              <button onclick="removeFromCart(${item.id})" style="margin-left:.6rem;color:#f44336">🗑</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-
-      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-      cartTotal.textContent = 'Total: ' + total.toLocaleString('id-ID') + ' Ruble';
-      cartCount.textContent = cart.reduce((s, i) => s + i.qty, 0);
-    }
-
-    function changeQty(id, delta) {
-      const it = cart.find(i => i.id === id);
-      if (!it) return;
-      it.qty += delta;
-      if (it.qty <= 0) removeFromCart(id);
-      else updateCart();
-    }
-
-    function removeFromCart(id) {
-      cart = cart.filter(i => i.id !== id);
-      updateCart();
-    }
-
-    // ===== MODAL & CHECKOUT =====
-    function toggleCart() {
-      const modal = document.getElementById('cartModal');
-      modal.classList.toggle('open');
-      // accessibility
-      modal.setAttribute('aria-hidden', modal.classList.contains('open') ? 'false' : 'true');
-    }
-
-    function showCheckout() {
-      if (cart.length === 0) {
-        alert('Keranjang belanja kosong!');
-        return;
-      }
-      // siapkan detail order
-      const details = cart.map(i => `${i.name} — ${i.qty} x ${i.price.toLocaleString('id-ID')} Ruble = ${(i.price*i.qty).toLocaleString('id-ID')} Ruble`).join('\n');
-      const total = cart.reduce((s,i) => s + i.price*i.qty, 0);
-
-      document.getElementById('orderDetails').value = details;
-      document.getElementById('orderTotal').value = total.toLocaleString('id-ID') + ' Ruble';
-
-      // tampilkan payment info dan form
-      document.getElementById('paymentInfoBox').style.display = 'block';
-      document.getElementById('checkoutForm').style.display = 'block';
-
-      // tutup modal cart agar user fokus ke form
-      const cartModal = document.getElementById('cartModal');
-      cartModal.classList.remove('open');
-      cartModal.setAttribute('aria-hidden','true');
-
-      // scroll ke form (bagus untuk UX)
-      setTimeout(() => {
-        document.getElementById('checkoutForm').scrollIntoView({behavior:'smooth'});
-      }, 150);
-    }
-
-    function hideCheckout() {
-      document.getElementById('checkoutForm').style.display = 'none';
-    }
-
-    // ===== VALIDASI FILE & SUBMIT =====
-    function validateAndSubmit(e) {
-      // Pastikan file ada dan memenuhi kriteria
-      const fileInput = document.getElementById('proof');
-      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        alert('Silakan upload bukti pembayaran (gambar).');
-        e.preventDefault();
-        return false;
-      }
-      const file = fileInput.files[0];
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      if (file.size > maxSize) {
-        alert('Bukti pembayaran terlalu besar. Maksimum 5 MB.');
-        e.preventDefault();
-        return false;
-      }
-      // cek tipe file image
-      if (!file.type.startsWith('image/')) {
-        alert('Bukti pembayaran harus berupa gambar (JPG/PNG/WebP).');
-        e.preventDefault();
-        return false;
-      }
-
-      // Disable submit button agar tidak double-submit
-      document.getElementById('submitBtn').disabled = true;
-      document.getElementById('submitBtn').textContent = 'Mengirim...';
-
-      // NOTE: Kita menggunakan submit form native ke FormSubmit.co (tidak pakai fetch)
-      // Jika Anda menguji via file:// -> form tidak akan dikirim. Pastikan host via HTTPS (GitHub Pages).
-      return true; // izinkan form submit native
-    }
-
-    // ===== SAFETY: ESCAPE TEXT =====
-    function escapeHtml(str) {
-      if (typeof str !== 'string') return str;
-      return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[s]);
-    }
-
-    // ===== INIT =====
-    displayProducts();
-    updateCart();
-
-    // Optional: Jika ingin auto-clear cart setelah submit berhasil, FormSubmit dapat redirect ke halaman terpisah.
-    // Kamu bisa set input hidden "_next" ke URL thank-you kamu jika dibuat.
-  </script>
+// Tombol kembali ke toko
+function goBackToStore(){
+ document.getElementById("thankYou").style.display="none";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
 </body>
 </html>
