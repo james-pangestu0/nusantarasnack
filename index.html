@@ -27,7 +27,9 @@ nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;alig
 .cart-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:40}
 .cart-modal.open{display:flex}
 .cart-content{background:#fff;border-radius:10px;padding:1.5rem;max-width:500px;width:90%;max-height:80vh;overflow:auto}
-.cart-item{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid #eee}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid #eee}
+.cart-item button{background:#eee;border:none;padding:.3rem .6rem;border-radius:4px;cursor:pointer;margin:0 .2rem}
+.cart-item button:hover{background:#ccc}
 .cart-total{text-align:right;font-weight:700;color:#c62828;margin-top:1rem}
 .checkout-btn{background:#4caf50;color:#fff;border:none;width:100%;padding:.9rem;border-radius:6px;margin-top:1rem;cursor:pointer}
 .checkout-btn:hover{background:#388e3c}
@@ -143,14 +145,12 @@ displayProducts();
 
 function addToCart(id){
  const p=products.find(x=>x.id===id);
- if(!p || p.stock<=0){alert("Stok habis!");return;}
+ if(!p||p.stock<=0){alert("Stok habis!");return;}
  const exist=cart.find(x=>x.id===id);
  if(exist){
    if(exist.qty<p.stock){exist.qty++;}
    else{alert("Tidak bisa menambah lebih dari stok tersedia!");return;}
- } else {
-   cart.push({...p,qty:1});
- }
+ } else {cart.push({...p,qty:1});}
  updateCart();
  showNotification("Produk ditambahkan ke keranjang!");
 }
@@ -166,12 +166,34 @@ function updateCart(){
  }
  items.innerHTML=cart.map(i=>`
   <div class="cart-item">
-   <span>${i.name} (${i.qty})</span>
-   <span>${i.price*i.qty} Ruble</span>
+    <div>
+      <strong>${i.name}</strong><br>
+      ${i.price} Ruble x ${i.qty}
+    </div>
+    <div>
+      <button onclick="changeQty(${i.id},-1)">–</button>
+      <button onclick="changeQty(${i.id},1)">+</button>
+      <button onclick="removeFromCart(${i.id})">🗑️</button>
+    </div>
   </div>`).join("");
  const sum=cart.reduce((s,i)=>s+i.price*i.qty,0);
  total.textContent="Total: "+sum+" Ruble";
  count.textContent=cart.reduce((s,i)=>s+i.qty,0);
+}
+
+function changeQty(id,delta){
+ const item=cart.find(i=>i.id===id);
+ if(!item)return;
+ const prod=products.find(p=>p.id===id);
+ if(delta===1 && item.qty>=prod.stock){alert("Stok tidak cukup!");return;}
+ item.qty+=delta;
+ if(item.qty<=0){removeFromCart(id);}
+ updateCart();
+}
+
+function removeFromCart(id){
+ cart=cart.filter(i=>i.id!==id);
+ updateCart();
 }
 
 function toggleCart(){
@@ -180,7 +202,7 @@ function toggleCart(){
 
 function showCheckout(){
  if(cart.length===0){alert("Keranjang kosong!");return;}
- const details=cart.map(i=>`${i.name} (${i.qty}) x ${i.price} Ruble = ${i.price*i.qty} Ruble`).join("\\n");
+ const details=cart.map(i=>`${i.name} (${i.qty}) x ${i.price} Ruble = ${i.price*i.qty} Ruble`).join("\n");
  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
  document.getElementById("orderDetails").value=details;
  document.getElementById("orderTotal").value=total+" Ruble";
@@ -189,14 +211,12 @@ function showCheckout(){
  window.scrollTo({top:document.getElementById("checkoutForm").offsetTop,behavior:"smooth"});
 }
 
-// === NOTIFIKASI ===
 function showNotification(msg){
  const n=document.getElementById("notification");
  n.textContent=msg;n.style.display="block";
  setTimeout(()=>{n.style.display="none"},2000);
 }
 
-// === VALIDASI & SUBMIT ===
 document.getElementById("orderForm").addEventListener("submit",function(e){
  e.preventDefault();
  const file=document.getElementById("proof").files[0];
@@ -207,7 +227,6 @@ document.getElementById("orderForm").addEventListener("submit",function(e){
  fetch(this.action,{method:"POST",body:formData})
  .then(res=>{
    if(res.ok){
-     // kurangi stok produk berdasarkan pesanan
      cart.forEach(ci=>{
        const prod=products.find(p=>p.id===ci.id);
        if(prod) prod.stock=Math.max(prod.stock-ci.qty,0);
@@ -215,7 +234,7 @@ document.getElementById("orderForm").addEventListener("submit",function(e){
      cart=[];updateCart();displayProducts();
      document.getElementById("checkoutForm").style.display="none";
      document.getElementById("thankYou").style.display="block";
-   } else alert("Gagal mengirim. Pastikan situs HTTPS & email sudah diverifikasi.");
+   } else alert("Gagal mengirim. Pastikan HTTPS & email FormSubmit aktif.");
  })
  .catch(()=>alert("Gagal mengirim. Coba lagi."));
 });
