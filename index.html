@@ -1,126 +1,595 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toko Online</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
-  .cart-item { display: flex; justify-content: space-between; background: white; margin: 5px 0; padding: 10px; border-radius: 6px; }
-  .checkout-btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
-  .checkout-btn:hover { background: #0056b3; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TemanRusiaKamu - Bumbu & Snack Nusantara</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  /* Popup style */
-  .overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    justify-content: center; align-items: center;
-    z-index: 1000;
-  }
-  .popup {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-  }
-  .popup h2 { color: #333; }
-  .popup ul { text-align: left; margin-top: 10px; }
-  .popup ul li { margin-bottom: 5px; }
-  .close-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    margin-top: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .close-btn:hover { background: #b52a36; }
-  .payment-info {
-    background: #f0f0f0;
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 15px;
-    text-align: left;
-  }
-</style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #c62828 0%, #d32f2f 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffc107;
+            color: #333;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(198, 40, 40, 0.8), rgba(211, 47, 47, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23f4e4c1" width="1200" height="400"/><circle cx="200" cy="100" r="50" fill="%23c62828" opacity="0.1"/><circle cx="800" cy="300" r="80" fill="%23d32f2f" opacity="0.1"/><circle cx="1000" cy="150" r="60" fill="%23c62828" opacity="0.1"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #c62828;
+        }
+
+        .categories {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid #c62828;
+            background: white;
+            color: #c62828;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: #c62828;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(198, 40, 40, 0.3);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f4e4c1;
+        }
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+	
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .product-stock {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 0.8rem;
+        }
+
+        .product-stock.low {
+            color: #f44336;
+            font-weight: bold;
+        }
+	
+
+
+        .product-price {
+            font-size: 1.3rem;
+            color: #c62828;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background: #c62828;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #b71c1c;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-cart {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-total {
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+            color: #c62828;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #388e3c;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <div class="logo">🌶️ TemanRusiaKamu</div>
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#products">Produk</a></li>
+                <li><a href="#about">Tentang</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </nav>
+    </header>
 
-<h1>🛍️ Daftar Belanja</h1>
+    <section class="hero" id="home">
+        <h1>Selamat Datang di TemanRusiaKamu!</h1>
+        <p>Bumbu & Snack Nusantara Terbaik untuk Anda</p>
+    </section>
 
-<div id="cart"></div>
-<button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <div class="container" id="products">
+        <h2 class="section-title">Produk Kami</h2>
+        
+        <div class="categories">
+            <button class="category-btn active" onclick="filterProducts('semua')">Semua</button>
+            <button class="category-btn" onclick="filterProducts('bumbu')">Bumbu</button>
+            <button class="category-btn" onclick="filterProducts('snack')">Snack</button>
+        </div>
 
-<!-- Popup -->
-<div id="checkoutPopup" class="overlay">
-  <div class="popup">
-    <h2>💳 Detail Pembayaran</h2>
-    <div id="orderDetails"></div>
-
-    <div class="payment-info">
-      <p><b>Silakan transfer ke rekening berikut:</b></p>
-      <ul>
-        <li><b>Bank:</b> Sberbank</li>
-        <li><b>Nama:</b> James Pangestu</li>
-        <li><b>No. Rekening:</b> 2202 1234 5678 9101</li>
-        <li><b>Total:</b> <span id="paymentTotal">0</span> ₽</li>
-      </ul>
-      <p>Setelah transfer, kirim bukti pembayaran ke:</p>
-      <p><b>Email:</b> <a href="mailto:payments@tokokamu.ru">payments@tokokamu.ru</a></p>
+        <div class="products" id="productContainer"></div>
     </div>
 
-    <button class="close-btn" onclick="closePopup()">Tutup</button>
-  </div>
-</div>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Keranjang Belanja</h2>
+                <span class="close-cart" onclick="toggleCart()">✕</span>
+            </div>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal">Total: Rp 0</div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
 
-<script>
-  // Contoh data keranjang (kamu bisa ganti dengan data aslimu)
-  const cart = [
-    { name: 'Kemeja Putih', price: 1500, qty: 1 },
-    { name: 'Celana Jeans', price: 2000, qty: 2 },
-    { name: 'Sepatu Sneakers', price: 3500, qty: 1 }
-  ];
+    <footer>
+        <p>&copy; 2025 TemanRusiaKamu. Membawa cita rasa Nusantara ke seluruh dunia!</p>
+    </footer>
 
-  function loadCart() {
-    const cartDiv = document.getElementById('cart');
-    cartDiv.innerHTML = '';
-    cart.forEach(item => {
-      const el = document.createElement('div');
-      el.className = 'cart-item';
-      el.innerHTML = `<span>${item.name} (x${item.qty})</span><span>${(item.price * item.qty).toFixed(2)} ₽</span>`;
-      cartDiv.appendChild(el);
-    });
-  }
+    <script>
+        const products = [
+    { 
+        id: 1, 
+        name: 'Nasi Goreng Yummy', 
+        price: 140 + 'Ruble',
+        stock: 1,
+        category: 'bumbu', 
+        image: './images/Nasgor2.jpg',
+        description: 'Nasi Goreng Yummy merek Kokita, isi 60 gram'
+    },
+    { 
+        id: 2, 
+        name: 'Bumbu Royco Sapi', 
+        price: 140 + 'Ruble', 
+        stock: 2,
+        category: 'bumbu', 
+        image: './images/Royco.jpg',
+        description: 'isi 6 sachet',
+    },
+    { 
+        id: 3, 
+        name: 'Sambel Uleg', 
+        price: 140 + 'Ruble', 
+        stock: 1,
+        category: 'Bumbu', 
+        image: './images/Sambel Uleg.jpg',
+        description: 'Isi 5 sachet',
+    },
+    { 
+        id: 4, 
+        name: 'Tolak Angin', 
+        price: 50 + 'Ruble/ Sachet', 
+        stock: 5,
+        category: 'Obat', 
+        image: './images/Tolak Angin.jpg',
+        description: 'Isi 5 Sachet',
+    },
+    { 
+        id: 5, 
+        name: 'Kari Jepang', 
+        price: 200 + 'Ruble', 
+        stock: 60,
+        category: 'Bumbu', 
+        image: './images/Kari Jepang.jpg',
+        description: 'Kari Jepang Merek Sasa'
+    },
+    { 
+        id: 6, 
+        name: 'Bumbu Soto Betawi', 
+        price: 140 + 'Ruble', 
+        stock: 4,
+        category: 'bumbu', 
+        image: './images/Soto Betawi.jpg',
+        description: 'Bumbu soto betawi lengkap, tinggal tambah santan'
+    }
+];
 
-  function checkout() {
-    let total = 0;
-    let details = '<ul>';
-    cart.forEach(item => {
-      const subtotal = item.price * item.qty;
-      total += subtotal;
-      details += `<li>${item.name} (x${item.qty}) — ${subtotal.toFixed(2)} ₽</li>`;
-    });
-    details += '</ul>';
+        let cart = [];
+        let currentFilter = 'semua';
 
-    document.getElementById('orderDetails').innerHTML = details;
-    document.getElementById('paymentTotal').textContent = total.toFixed(2);
+        function displayProducts(filter = 'semua') {
+            const container = document.getElementById('productContainer');
+            const filteredProducts = filter === 'semua' 
+                ? products 
+                : products.filter(p => p.category === filter);
 
-    document.getElementById('checkoutPopup').style.display = 'flex';
-  }
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" 
+                        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22><rect fill=%22%23f4e4c1%22 width=%22400%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2240%22>🍜</text></svg>'">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-stock ${product.stock < 10 ? 'low' : ''}">
+                            Stok: ${product.stock} tersedia
+                        </div>
+                        <div class="product-price">Rp ${product.price.toLocaleString('id-ID')}</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
+                            ${product.stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-  function closePopup() {
-    document.getElementById('checkoutPopup').style.display = 'none';
-  }
+        function filterProducts(category) {
+            currentFilter = category;
+            displayProducts(category);
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
 
-  loadCart();
-</script>
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
 
-<!-- ✅ POPUP CHECKOUT -->
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCart();
+            showNotification('Produk ditambahkan ke keranjang!');
+        }
+
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">Keranjang belanja kosong</div>';
+                cartTotal.textContent = 'Total: Rp 0';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        Rp ${item.price.toLocaleString('id-ID')} x ${item.quantity}
+                    </div>
+                    <div>
+                        <button onclick="changeQuantity(${item.id}, -1)" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">-</button>
+                        <button onclick="changeQuantity(${item.id}, 1)" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">+</button>
+                        <button onclick="removeFromCart(${item.id})" style="padding: 5px 10px; margin: 0 5px; background: #f44336; color: white; border: none; cursor: pointer;">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `Total: Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        function changeQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Keranjang belanja Anda kosong!');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Terima kasih atas pesanan Anda!\n\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nPesanan akan segera diproses.`);
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: #4caf50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 6px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        // Initialize
+        displayProducts();
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+  <!-- ✅ POPUP CHECKOUT -->
 <div id="checkoutOverlay" style="
   display:none; position:fixed; top:0; left:0; width:100%; height:100%;
   background:rgba(0,0,0,0.6); justify-content:center; align-items:center;
@@ -193,4 +662,3 @@
   
 </body>
 </html>
-
